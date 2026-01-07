@@ -1,0 +1,52 @@
+<section class="bg-sage text-white py-24 w-full">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+            
+            <div class="flex flex-col">
+                <div class="mb-6 opacity-30 text-sand">
+                    <i data-lucide="quote" class="w-8 h-8"></i>
+                </div>
+                <blockquote class="flex-grow mb-8">
+                    <p class="font-serif text-xl italic leading-relaxed !text-white">
+                        "The Collective provided the bridge I needed to move my research from theory to practice with actual clinicians."
+                    </p>
+                </blockquote>
+                <div class="pt-6 border-t border-white/10">
+                    <p class="font-bold text-sm tracking-wide">Contributor Name</p>
+                    <p class="text-xs text-sand uppercase tracking-widest mt-1">Research Track</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="mb-6 opacity-30 text-sand">
+                    <i data-lucide="quote" class="w-8 h-8"></i>
+                </div>
+                <blockquote class="flex-grow mb-8">
+                    <p class="font-serif text-xl italic leading-relaxed !text-white">
+                        "Engaging with the Collabs initiative allowed our team to refine our safety protocols with expert clinical feedback."
+                    </p>
+                </blockquote>
+                <div class="pt-6 border-t border-white/10">
+                    <p class="font-bold text-sm tracking-wide">Founder Name</p>
+                    <p class="text-xs text-sand uppercase tracking-widest mt-1">Founder Track</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="mb-6 opacity-30 text-sand">
+                    <i data-lucide="quote" class="w-8 h-8"></i>
+                </div>
+                <blockquote class="flex-grow mb-8">
+                    <p class="font-serif text-xl italic leading-relaxed !text-white">
+                        "Finally, a space where we can discuss the neurobiology of AI attachment without pathologizing the users."
+                    </p>
+                </blockquote>
+                <div class="pt-6 border-t border-white/10">
+                    <p class="font-bold text-sm tracking-wide">Clinician Name, PhD</p>
+                    <p class="text-xs text-sand uppercase tracking-widest mt-1">Practitioner Track</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
