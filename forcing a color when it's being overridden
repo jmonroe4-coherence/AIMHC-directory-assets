@@ -1,0 +1,26 @@
+### The Original Line
+
+This is what the code looked like before the edit:
+
+```html
+<h3 class="text-2xl font-bold font-serif mb-4">Clinician's Circle</h3>
+
+```
+
+### The Edited Line
+
+This is the updated version with the color fixes:
+
+```html
+<h3 class="text-2xl font-bold font-serif mb-4 text-white" style="color: #ffffff !important;">Clinician's Circle</h3>
+
+```
+
+---
+
+### Two Specific Changes
+
+* **The Tailwind Class:** I added **`text-white`** inside the class list. This tells Tailwind to attempt to color the text white.
+* **The Inline Style:** I added **`style="color: #ffffff !important;"`** after the classes. This is an extra layer of protection. It forces the browser to ignore any other color rules coming from Kajabi that might be trying to turn the header black or gray.
+
+Would you like me to look for any other headers in your code that are currently blending into the background?
