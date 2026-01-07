@@ -1,0 +1,20 @@
+<section class="bg-sage text-white py-24 w-full">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <div class="mb-8 opacity-30">
+            <i data-lucide="quote" class="w-12 h-12 mx-auto"></i>
+        </div>
+        
+        <blockquote class="mb-10">
+            <p class="font-serif text-3xl md:text-4xl italic leading-tight !text-white" style="color: #ffffff !important;">
+                "The intersection of human neurobiology and artificial intelligence is the new frontier of clinical ethics. The Collective is where we find the language for this transition."
+            </p>
+        </blockquote>
+
+        <div class="flex flex-col items-center">
+            <div class="w-16 h-px bg-sand/40 mb-6"></div>
+            
+            <p class="font-bold text-lg tracking-wide">Contributor Name</p>
+            <p class="text-sm text-sand uppercase tracking-[0.2em] mt-2 font-medium">Professional Role or Track</p>
+        </div>
+    </div>
+</section>
