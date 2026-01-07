@@ -1,0 +1,27 @@
+<section class="py-20 bg-bone">
+    <div class="max-w-5xl mx-auto px-6 lg:px-12">
+        <div class="text-center mb-12">
+            <h2 class="font-serif text-3xl text-sage mb-4">Inside the Collective</h2>
+            <div class="w-16 h-1 bg-sand mx-auto"></div>
+        </div>
+
+        <div class="relative group">
+            <div class="absolute -top-4 -right-4 w-full h-full border-2 border-sand rounded-2xl z-0 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></div>
+            
+            <div class="relative z-10 overflow-hidden rounded-2xl shadow-xl bg-charcoal aspect-video">
+                <iframe 
+                    src="https://www.youtube.com/embed/VIDEO_ID" 
+                    title="AIMHC Video Player"
+                    class="absolute top-0 left-0 w-full h-full"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+        
+        <p class="mt-8 text-center text-gray-500 italic text-sm">
+            Brief caption explaining the clinical or technical focus of this specific session.
+        </p>
+    </div>
+</section>
