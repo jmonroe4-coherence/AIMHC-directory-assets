@@ -1,0 +1,11 @@
+<section class="py-20 bg-bone w-full">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <i data-lucide="quote" class="w-12 h-12 text-sand/30 mx-auto mb-8"></i>
+        <h2 class="font-serif text-2xl md:text-3xl text-sage leading-snug italic mb-8">
+            "The Collective has provided a safe container to explore the ethical nuances of AI without losing sight of the core therapeutic relationship."
+        </h2>
+        <div class="w-12 h-px bg-sand mx-auto mb-6"></div>
+        <p class="font-bold text-charcoal">Dr. Rachel Wood</p>
+        <p class="text-sm text-gray-500 uppercase tracking-widest mt-1">Founder, AIMHC</p>
+    </div>
+</section>
