@@ -1,0 +1,19 @@
+<div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm flex flex-col h-full">
+    <div class="text-sand mb-6">
+        <i data-lucide="quote" class="w-8 h-8 opacity-50"></i>
+    </div>
+    <blockquote class="flex-grow">
+        <p class="font-serif text-xl text-charcoal italic leading-relaxed mb-6">
+            "Insert the testimonial text here. Keep it to 2-3 sentences for the best visual balance within the directory or track pages."
+        </p>
+    </blockquote>
+    <div class="flex items-center pt-6 border-t border-gray-50">
+        <div class="h-10 w-10 rounded-full bg-sage/10 flex items-center justify-center text-sage font-bold">
+            JD
+        </div>
+        <div class="ml-4">
+            <p class="font-bold text-sage text-sm">Jane Doe, LMFT</p>
+            <p class="text-xs text-gray-400 uppercase tracking-widest">Clinical Consultant</p>
+        </div>
+    </div>
+</div>
