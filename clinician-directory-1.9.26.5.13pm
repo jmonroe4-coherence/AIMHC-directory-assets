@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mental Health Collective | Clinician Directory</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<style>
+    /* Keeps site mobile menu on top of custom content */
+    .navbar-collapse, .nav-menu, .kjb-navbar-collapse, .navbar {
+        z-index: 9999 !important;
+    }
+    
+    /* Prevents theme conflicts with the hero section */
+    #custom-hero-section {
+        position: relative !important;
+        top: auto !important;
+        z-index: 10 !important;
+    }
+</style>
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                serif: ['Playfair Display', 'serif'],
+              },
+              colors: {
+                  sage: '#6B7A6E',
+                  sand: '#C9AD8D',
+                  bone: '#FDFDFC',
+                  charcoal: '#333333'
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-bone text-charcoal antialiased font-sans flex flex-col min-h-screen">
+    
+    <div id="custom-hero-section" class="bg-white border-b border-gray-100 w-full pt-0">
+        <div class="max-w-7xl mx-auto py-16 md:py-24 px-6 lg:px-12 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="font-serif text-4xl md:text-5xl font-bold text-sage mb-6">
+                    Clinician Directory
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto text-left">
+                    The Clinicians Directory houses mental health practitioners inside the AI Mental Health Collective who are actively involved in shaping a responsible, safe, and ethical future with AI. Membership is comprised of clinicians, consultants, advisors, and psychoeducators. The Directory also serves as a resource for <strong><a href="https://thehumanlineproject.org" target="_blank" class="text-sage hover:underline">The Human Line Project</a></strong> and <strong><a href="https://beinghumanwithai.org" target="_blank" class="text-sage hover:underline">Being Human with AI</a></strong>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow bg-bone w-full relative z-0">
+        
+        <div class="max-w-7xl mx-auto py-16 px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/822254-f35a-4ce0-1cab-5d72c474b47d_Grant_Brenner.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Grant Brenner">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Grant Brenner, MD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">NY, NJ, FL, CO, MA, CA</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Interventional psychiatrist and psychoanalyst focusing on precision medicine and artificial intelligence. Active in disaster mental health.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:gbrenner@neighborhoodpsychiatry.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="https://linktr.ee/DrGrantHBrenner" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6c5583c-d343-57f0-b64e-ff75eeeda6_Charlotte_Beard.jfif" class="w-full h-72 object-cover border-b-4 border-sand" alt="Charlotte Beard">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Charlotte Beard, PhD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Expertise in mental health and technology, including problematic technology use and human–computer interaction.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:charlotte@openworldtreatment.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.openworldtreatment.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/d3b26b2-b235-be86-33ee-a05a0a3bf5_Gage_BlanckSinger_Headshot.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Gage Blanck-Singer">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Gage Blanck-Singer, LPC</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New Jersey</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Specializes in codependency, addiction, and helping partners navigate a loved one’s substance use.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:gage@attainable-recovery.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/12daf80-f537-ab70-46e6-cded24356fcf_7e6067e5-ae8b-40e5-b542-9b4463cb5877.JPG" class="w-full h-72 object-cover border-b-4 border-sand" alt="Fiona Brandon">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Fiona Brandon, MFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Integrates psychodynamic therapy, Buddhist psychology, and sensorimotor psychotherapy.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:fiona@fionabrandon.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.fionabrandon.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ae478d2-eada-44ea-0436-0448abcea0d_b3c91fe9-5726-4e67-a045-d5944cd4286f.JPG" class="w-full h-72 object-cover border-b-4 border-sand" alt="Ann Dypiangco">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Ann Dypiangco, LCSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California (Telehealth)</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Trauma therapist specializing in EMDR and relational healing. Interested in how technology influences attachment.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:ann@ann-therapy.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/a6a4f42-2dd5-af0-2143-72bbc6b73f1f_404cb943-21fd-4a95-be4a-dd08c7a8385d.jfif" class="w-full h-72 object-cover border-b-4 border-sand" alt="Juliette Doyle">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Juliette Doyle, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">NY, CT, FL</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">20 years of experience serving individuals, couples, and families; specializing in marriage and relational issues and trauma.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:jdoyle@juliettedoyle.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.juliettedoyle.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/17d6bae-d66a-0178-cedf-ca5b3b72fac_cc145625-a8e0-42d3-8455-37e41eaf3e7d.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Laura Federico">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Laura Federico, LCSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New York</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Certified sex and relationship therapist specializing in medical trauma, AI attachment, and poly/OCD dynamics.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:hello@laurafederico.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ca7c8c3-3856-f67a-33cf-5e7f4ddd7e_a5c0a281-7476-4464-99cf-cf5cec8bb4bb.png" class="w-full h-72 object-cover border-b-4 border-sand" alt="Caitlin Gasperetti">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Caitlin Gasperetti, PhD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New York</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Intensive training in DBT. Supporting clients who form attachment bonds with AI to cope with loneliness or fears of abandonment.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:caitlingasperettiphd@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6ed2428-5725-0186-3e2-0d23f5eca04_5e29ac22-a36d-4a96-84e5-3341ad4ff533.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Stephanie Haft">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Stephanie Haft, PhD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California (Telehealth)</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Specializes in PTSD, anxiety, and depression using DBT and ACT. Consults with AI-based mental health companies.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:stephaniehaft@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/1cf4cd5-1d2b-f885-32b3-14cebc67a116_c6b0b630-95bc-4a5e-bfbe-1d3a7e6f9eb3.jfif" class="w-full h-72 object-cover border-b-4 border-sand" alt="Patricia Huber Villano">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Patricia Huber Villano, DSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New York</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Over 25 years of experience in addiction recovery and psychiatric rehabilitation. Focuses on building resilience and purpose.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:phubervillano@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ac8cfc-7754-a3da-62b-587555ec1c2b_dc50e08c-2a73-4c4c-a2e9-623bd7ab656f.jpeg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Chris Jones">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Chris Jones, DHSc, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Nevada</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Expertise in Neuroscience & Trauma. Approved Primary Supervisor in Nevada focusing on health sciences and clinical training.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:chris@jonesmft.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e51da87-c5ee-0be0-d35-1b557aab8d6_68ca60e3-6460-4891-b30a-964cad60d6d7.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Cassie Kingan">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Cassie Kingan, LPCC-S</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Ohio</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Uses trauma-informed Somatic Therapy to address how stress and emotions are stored in the body for mind/body empowerment.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:cassie@wholelifebalancecounseling.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/16a31d7-1362-a73b-e413-e4e1eb45bc33_bbe27327-838e-4b8f-bf8c-7fde60b01ac7.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Emily Mbelenga">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Emily Mbelenga</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Kenya</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Clinical Psychologist and Public Health Nutritionist specializing in trauma recovery and the ethical application of AI in healthcare.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:emily@iyashiwellness.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/54ac5fb-e376-00b-241-84bff0ad7f4_d5f0789e-4583-4e21-ad71-9e8988c6b43b.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Sarayu Meraki">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Sarayu Meraki, LPC</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Wisconsin</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Relational therapist helping adults transform patterns of self-abandonment and reliance on AI-based relational surrogates using NARM.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:sarayu@merakicounseling.org" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://merakicounseling.org" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/fad505-5f0f-2077-c52f-012b45b5635_04811456-8fb9-42d1-9913-937ab037356c.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Tzurty Mermelstein">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Tzurty Mermelstein, LMSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New York</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Trauma-informed therapist helping individuals navigate depression and identity through relational, somatic, and psychedelic-assisted approaches.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:tzurty@mermelsteintherapy.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/a4d14e3-57c1-8ab5-aea7-b64c42ebf680_fcd9731b-e0fb-4e79-9a86-75e0e5887e31.jpeg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Cheryl Mlcoch">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Cheryl Mlcoch, LPC</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Colorado</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Holistic practitioner with 20 years of experience using somatic exercises and nutrition to support trauma and life transitions.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:cherylmlcoch@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://raw.githubusercontent.com/jmonroe4-coherence/AIMHC-directory-assets/refs/heads/main/image-0.png" class="w-full h-72 object-cover border-b-4 border-sand" alt="Jessa Monroe">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jessa Monroe</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Boston, MA</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Currently working towards a Master's of Science in Clinical Mental Health Counseling with a special interest in neurobiology and memory reconsolidation.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:monroej@merrimack.edu" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.jessamonroe.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/cf47581-1385-a428-d01a-cd0418d843_9738d863-36fb-4e0a-a2d4-52baf5ba36e8.JPG" class="w-full h-72 object-cover border-b-4 border-sand" alt="Frances Mulcahy">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Frances Mulcahy, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Bilingual therapist specializing in EMDR and somatic therapies for AANHPI and BIPOC clients exploring intergenerational trauma.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:fmulcahy@francesmulcahytherapy.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.francesmulcahytherapy.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/254a54e-fd0-0266-ed24-bfafa818b60e_Jackie_O.jpeg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Jackie Ourman">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jackie Ourman, LMHC-D</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">NY, FL</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Focuses on attachment and relationship safety using EFT, ACT, and EMDR. Facilitator for conversations on AI and mental health.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:jackie@valuesalignedtherapy.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.valuesalignedtherapy.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/0be8c1a-ea4a-420b-a4e-deac37b7bc2_5a1ab526-2b12-4f8e-b948-5d3882fd6ae7.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Dinah Purton">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Dinah Purton, MBACP</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">United Kingdom</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Integrative psychotherapist specializing in ADHD, neurodivergence, and the intersection between AI and therapy ethics.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:dinah@dinahpurton.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.dinahpurton.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/b8a76ed-7771-b021-526c-ce81f687a07_7340e241-4cc4-4ccf-b3a8-3acfcae63440.jfif" class="w-full h-72 object-cover border-b-4 border-sand" alt="Joanna Rosenblatt">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Joanna Rosenblatt, LCSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">NY, CT</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">EMDR-certified specialist focusing on OCD, anxiety, and the stories we hold about our nervous systems.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:joanna@joannarosenblatt.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.joannarosenblatt.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6212ce3-babc-ea64-6bbf-01a752ab4512_Jake_Ross.jpeg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Jake Ross">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jake Ross, LISW-S</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">OH, IN, FL, VA</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Specialist in child welfare and trauma-informed care operations, empowering millennial men to lead fulfilling lives.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:jake@millennialmen.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/2d28ddf-1e26-2fe8-3cc-855b81655f_20b22151-b42a-4977-8ff4-c81c181aabdb.JPG" class="w-full h-72 object-cover border-b-4 border-sand" alt="Morgan Schultz">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Morgan Schultz, LCSW</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Supports teens overwhelmed by AI-related relationships and identity confusion. Helps parents rebuild safety at home.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:morgan@growthtalktherapy.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://growthtalktherapy.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/7bb1646-1410-5673-2a3b-733fe3cd0d_88a1ae92-200f-411b-8654-96d7a37b5d60.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Scott Shapiro">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Scott Shapiro, MD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">NY, NJ</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Harvard-trained psychiatrist and nationally recognized expert in adult ADHD. Provides medication and CBT in one place.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:scottshapiromd@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.scottshapiromd.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/243022-5821-bb6-4478-8acb313ab7f_a62f3425-865b-4bf4-94cb-a8f13bb5cd45.jfif" class="w-full h-72 object-cover border-b-4 border-sand" alt="Jocelyn Skillman">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jocelyn Skillman, LMHC</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Washington</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Draws on interpersonal neurobiology and attachment theory to support healing. Develops trauma-informed AI systems.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:jocelynskillman@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.jocelynskillman.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/1001f6-ab6-0ce4-0751-8b42f37fffb_a5793ff6-c32e-43f6-9af4-c3de59245d11.png" class="w-full h-72 object-cover border-b-4 border-sand" alt="Ashvin Sood">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Ashvin Sood, MD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">DC, NY, VA, MD, WI</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Board certified Adult and Child/Adolescent psychiatrist. Educates on the pros and cons of AI and social media for youth.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:sood@psychchild.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e0a0707-b285-fb22-b574-b510efdd8261_df2ebe8c-59a5-4a7b-bb8a-54309a793fb0.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Leanne Spagnola">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Leanne Spagnola, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Trauma-informed psychodynamic perspective helping clients with PTSD, anxiety, and co-parenting challenges.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:lspagnola@lifestance.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/008ae00-de12-d3f1-0eb1-8217c8acf_Erica_Spartos.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Erica Spartos">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Erica Spartos, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">EMDR trained therapist focusing on LGBTQAI+, anxiety, and C/PTSD. Provides Telehealth and nature-based "walk and talks."</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="https://www.lifecirclecenter.com/" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/748bb68-bca-3aa2-f6d-e5e54483fe5_9a086816-7296-453a-ad53-f24907f3fbd2.png" class="w-full h-72 object-cover border-b-4 border-sand" alt="June Thompson">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">June Thompson, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">20 years of experience researching the adverse effects of technological use on human functioning and attachments.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:june@junethompson.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e242677-eac2-d66d-7fe2-f123a701ddae_6cb2ecdd-a913-4e33-a195-2c417738272c.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Brigitte Viljoen">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Brigitte Viljoen, PhD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">New Zealand</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Psychodynamic specialist researching human-technology relational dynamics and the ethics of digital avatars.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:drbviljoen@aut.ac.nz" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.drbrigitteviljoen.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/edb8d1f-5d0-2abc-6e1-04752bbeb31b_262b78b4-36c6-43f9-b516-3b629feb7fda.JPG" class="w-full h-72 object-cover border-b-4 border-sand" alt="Gwendolyn Watson">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Gwendolyn Watson, LMFT</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Trauma-informed therapist certified in EMDR. Helps clients build resilience using EMDR, ACT, and DBT.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:gwendolyn@gwendolynwatson.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="https://www.gwendolynwatson.com/" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/5e6d56-a7bf-605b-ec7b-7d670d83433d_d5f337eb-22bf-4171-a2d0-c094809dc9fc.jpg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Rachel Wood">
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Rachel Wood, PhD</h2>
+                        <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Colorado</div>
+                        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">Founder of the AI Mental Health Collective. Speaker, advisor, and consultant for companies developing ethical AI.</p>
+                        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                            <a href="mailto:rachel@dr-rachelwood.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="http://www.dr-rachelwood.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+<div class="max-w-3xl mx-auto mt-12 bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-100 shadow-sm">
+    <h3 class="font-serif text-2xl text-sage mb-4">Got Questions?</h3>
+    <p class="text-gray-600 mb-8 max-w-lg mx-auto">
+        Contact us for more info.
+    </p>
+    <a href="https://www.aimentalhealthcollective.com/contact" class="inline-flex items-center justify-center px-10 py-4 border border-transparent text-base font-medium rounded-md text-white bg-sage hover:bg-[#5A665C] transition-colors shadow-md">
+        Contact Us <i data-lucide="mail" class="w-4 h-4 ml-2"></i>
+    </a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const navToggle = document.querySelector('.navbar-toggler, .hamburger, .kjb-navbar-toggle, [data-toggle="collapse"]')
+  const navMenu = document.querySelector('.navbar-collapse, .nav-menu, .kjb-navbar-collapse')
+
+  if (navToggle && navMenu) {
+    navToggle.addEventListener('click', function(e) {
+      e.preventDefault()
+      const isHidden = navMenu.classList.contains('hidden') || 
+                       window.getComputedStyle(navMenu).display === 'none' ||
+                       !navMenu.classList.contains('show')
+
+      if (isHidden) {
+        navMenu.classList.remove('hidden'); navMenu.classList.add('show');
+        navMenu.style.display = 'block'; navToggle.classList.remove('collapsed')
+      } else {
+        navMenu.classList.add('hidden'); navMenu.classList.remove('show');
+        navMenu.style.display = 'none'; navToggle.classList.add('collapsed')
+      }
+    })
+  }
+
+  const dropdownLinks = document.querySelectorAll('.dropdown-toggle, .kjb-dropdown-toggle, [data-toggle="dropdown"]')
+  dropdownLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault(); e.stopPropagation()
+      const menu = this.nextElementSibling
+      if (menu) {
+        const isShowing = menu.classList.contains('show')
+        document.querySelectorAll('.dropdown-menu, .kjb-dropdown-menu').forEach(m => {
+          m.classList.remove('show'); m.style.display = 'none'
+        })
+        if (!isShowing) {
+          menu.classList.add('show'); menu.style.display = 'block'
+        }
+      }
+    })
+  })
+})
+</script>
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>
