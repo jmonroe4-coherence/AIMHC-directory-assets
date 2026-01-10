@@ -35,7 +35,7 @@
 
     <header class="relative bg-bone overflow-hidden w-full">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="relative z-10 pb-8 bg-bone sm:pb-16 md:pb-24 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-6 sm:pt-8 md:pt-0">
+            <div class="relative z-10 pb-8 bg-bone sm:pb-16 md:pb-24 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-16 sm:pt-20 md:pt-24">
                 <main class="mx-auto lg:mx-0">
                     <div class="sm:text-center lg:text-left">
                         <div class="inline-flex items-center px-4 py-1 rounded-full border border-sand/50 bg-white text-sage text-sm font-medium mb-6 shadow-sm">
@@ -268,6 +268,7 @@
                         <div class="flex space-x-6">
                              <a href="https://www.dr-rachelwood.com/aboutme" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors">Full Bio</a>
                              <a href="https://www.dr-rachelwood.com/media" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors">Media Features</a>
+                             <a href="https://www.linkedin.com/in/dr-rachel-wood/" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors">LinkedIn</a>
                         </div>
                     </div>
                 </div>
