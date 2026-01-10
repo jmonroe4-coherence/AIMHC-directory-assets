@@ -6,7 +6,6 @@
     <title>AI Mental Health Collective</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,7 +35,7 @@
 
     <header class="relative bg-bone overflow-hidden w-full">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="relative z-10 pb-8 bg-bone sm:pb-16 md:pb-24 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-10 sm:pt-12 md:pt-16 lg:pt-20 xl:pt-28">
+            <div class="relative z-10 pb-8 bg-bone sm:pb-16 md:pb-24 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32 pt-6 sm:pt-8 md:pt-0">
                 <main class="mx-auto lg:mx-0">
                     <div class="sm:text-center lg:text-left">
                         <div class="inline-flex items-center px-4 py-1 rounded-full border border-sand/50 bg-white text-sage text-sm font-medium mb-6 shadow-sm">
@@ -67,7 +66,7 @@
                         </div>
                         
                         <p class="mt-6 text-xs text-gray-400 font-medium uppercase tracking-wider">
-                            Featured in <a href="#" class="underline hover:text-sage transition-colors">International Business Times</a>
+                            Featured in <a href="https://www.ibtimes.com/ai-paradox-dr-rachel-wood-protecting-human-connection-while-advancing-transformative-technology-3790305" target="_blank" class="underline hover:text-sage transition-colors">International Business Times</a>
                         </p>
                     </div>
                 </main>
@@ -101,7 +100,6 @@
 
     <section class="py-24 bg-white border-t border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 mb-20">
                 <div class="relative p-8 rounded-2xl bg-bone border border-gray-100 shadow-sm text-center md:text-left">
                     <div class="inline-block px-3 py-1 rounded-full bg-sand/10 text-sage text-xs font-bold uppercase tracking-widest mb-6 font-serif">
@@ -111,7 +109,6 @@
                         Cultivating Cross-Discipline Dialogue and Collaboration of Responsible AI in Mental Health
                     </p>
                 </div>
-
                 <div class="relative p-8 rounded-2xl bg-bone border border-gray-100 shadow-sm text-center md:text-left">
                     <div class="inline-block px-3 py-1 rounded-full bg-sand/10 text-sage text-xs font-bold uppercase tracking-widest mb-6 font-serif">
                         Our Vision
@@ -126,21 +123,17 @@
                 <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 opacity-10">
                     <i data-lucide="shield-check" class="w-64 h-64"></i>
                 </div>
-
                 <div class="relative z-10 text-center">
                     <h2 class="font-serif text-3xl md:text-4xl mb-12 !text-white">Core Values</h2>
-                    
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                         <div class="flex flex-col items-center">
                             <div class="mb-4 text-sand"><i data-lucide="users" class="w-10 h-10"></i></div>
                             <span class="font-sans text-xl tracking-widest uppercase font-normal">Community</span>
                         </div>
-
                         <div class="flex flex-col items-center border-t md:border-t-0 md:border-x border-white/10 py-8 md:py-0">
                             <div class="mb-4 text-sand"><i data-lucide="award" class="w-10 h-10"></i></div>
                             <span class="font-sans text-xl tracking-widest uppercase font-normal">Expertise</span>
                         </div>
-
                         <div class="flex flex-col items-center">
                             <div class="mb-4 text-sand"><i data-lucide="lightbulb" class="w-10 h-10"></i></div>
                             <span class="font-sans text-xl tracking-widest uppercase font-normal">Innovation</span>
@@ -151,106 +144,58 @@
         </div>
     </section>
 
-    <section id="features" class="py-20 bg-bone w-full">
+    <section id="join" class="py-24 bg-charcoal text-white w-full">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="text-center mb-16">
-                <h2 class="text-sm text-sand font-bold tracking-widest uppercase mb-3">Membership Benefits</h2>
-                <p class="text-3xl md:text-4xl font-bold font-serif text-charcoal">
-                    A Look Inside the Collective
+                <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4 text-white" style="color: #ffffff !important;">
+                    Choose Your Path
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    We have two distinct applications to ensure you are placed in the right peer group.
                 </p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="h-14 w-14 bg-sage/10 rounded-xl flex items-center justify-center text-sage mb-6">
-                        <i data-lucide="radio" class="w-7 h-7"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
+                <div class="bg-sage text-white rounded-xl overflow-hidden shadow-2xl border border-sage transform transition hover:-translate-y-1">
+                    <div class="p-10">
+                        <div class="uppercase tracking-wide text-sm text-white/80 font-bold mb-2">For Practitioners</div>
+                        <h3 class="text-2xl font-bold font-serif mb-4 text-white" style="color: #ffffff !important;">Clinician's Circle</h3>
+                        <p class="text-white/90 mb-8 leading-relaxed">
+                            Strictly for active clinicians. Discuss the impact of AI in practice, ethical usage, and client interaction in a safe environment.
+                        </p>
+                        <ul class="space-y-4 mb-8 text-white/90">
+                            <li class="flex items-start"><i data-lucide="message-circle" class="w-5 h-5 mr-3 mt-0.5"></i> Peer consultation</li>
+                            <li class="flex items-start"><i data-lucide="book-open" class="w-5 h-5 mr-3 mt-0.5"></i> CE Credits available</li>
+                        </ul>
+                        <a href="https://www.aimentalhealthcollective.com/join-the-clinician-s-circle" target="_blank" class="w-full bg-white text-sage py-4 px-4 rounded-md font-medium hover:bg-gray-50 transition-colors flex items-center justify-center">
+                            Apply for Clinician's Circle <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-xl font-bold font-serif text-charcoal">Live Virtual Gatherings</h3>
-                    <p class="mt-3 text-gray-600 leading-relaxed">
-                        Monthly discussions and hands-on practical collaborations with experts in the field.
-                    </p>
                 </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="h-14 w-14 bg-sage/10 rounded-xl flex items-center justify-center text-sage mb-6">
-                        <i data-lucide="book-open" class="w-7 h-7"></i>
+                <div class="bg-white text-charcoal rounded-xl overflow-hidden shadow-2xl transform transition hover:-translate-y-1">
+                    <div class="p-10">
+                        <div class="uppercase tracking-wide text-sm text-sage font-bold mb-2">For Industry Leaders</div>
+                        <h3 class="text-2xl font-bold font-serif mb-4">The Collective</h3>
+                        <p class="text-gray-600 mb-8 leading-relaxed">
+                            For builders, researchers, academics, legal experts, and founders building the future of mental health technology.
+                        </p>
+                        <ul class="space-y-4 mb-8 text-gray-600">
+                            <li class="flex items-start"><i data-lucide="users" class="w-5 h-5 mr-3 mt-0.5 text-sage"></i> Cross-discipline networking</li>
+                            <li class="flex items-start"><i data-lucide="brain" class="w-5 h-5 mr-3 mt-0.5 text-sage"></i> Research & Pilot access</li>
+                        </ul>
+                        <a href="https://www.aimentalhealthcollective.com/join-the-ai-mental-health-collective" target="_blank" class="w-full bg-charcoal text-white py-4 px-4 rounded-md font-medium hover:bg-black transition-colors flex items-center justify-center">
+                            Apply for the Collective <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
                     </div>
-                    <h3 class="text-xl font-bold font-serif text-charcoal">Continuing Education</h3>
-                    <p class="mt-3 text-gray-600 leading-relaxed">
-                        NBCC-approved CE credits available for clinicians looking to stay compliant while innovating.
-                    </p>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="h-14 w-14 bg-sage/10 rounded-xl flex items-center justify-center text-sage mb-6">
-                        <i data-lucide="brain" class="w-7 h-7"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-serif text-charcoal">Pilot Studies</h3>
-                    <p class="mt-3 text-gray-600 leading-relaxed">
-                        Opportunities to feature AI builders' work and participate in cutting-edge pilot studies.
-                    </p>
                 </div>
             </div>
         </div>
     </section>
-
-   <section id="join" class="py-24 bg-charcoal text-white w-full">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4 text-white" style="color: #ffffff !important;">
-                Choose Your Path
-            </h2>
-            <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-                We have two distinct applications to ensure you are placed in the right peer group.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-            
-            <div class="bg-sage text-white rounded-xl overflow-hidden shadow-2xl border border-sage transform transition hover:-translate-y-1">
-                <div class="p-10">
-                    <div class="uppercase tracking-wide text-sm text-white/80 font-bold mb-2">For Practitioners</div>
-                    <h3 class="text-2xl font-bold font-serif mb-4 text-white" style="color: #ffffff !important;">Clinician's Circle</h3>
-                    <p class="text-white/90 mb-8 leading-relaxed">
-                        Strictly for active clinicians. Discuss the impact of AI in practice, ethical usage, and client interaction in a safe environment.
-                    </p>
-                     <ul class="space-y-4 mb-8 text-white/90">
-                        <li class="flex items-start"><i data-lucide="message-circle" class="w-5 h-5 mr-3 mt-0.5"></i> Peer consultation</li>
-                        <li class="flex items-start"><i data-lucide="book-open" class="w-5 h-5 mr-3 mt-0.5"></i> CE Credits available</li>
-                    </ul>
-                    <a href="https://www.aimentalhealthcollective.com/join-the-clinician-s-circle" target="_blank" class="w-full bg-white text-sage py-4 px-4 rounded-md font-medium hover:bg-gray-50 transition-colors flex items-center justify-center">
-                        Apply for Clinician's Circle <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-white text-charcoal rounded-xl overflow-hidden shadow-2xl transform transition hover:-translate-y-1">
-                <div class="p-10">
-                    <div class="uppercase tracking-wide text-sm text-sage font-bold mb-2">For Industry Leaders</div>
-                    <h3 class="text-2xl font-bold font-serif mb-4">The Collective</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed">
-                        For builders, researchers, academics, legal experts, and founders building the future of mental health technology.
-                    </p>
-                    <ul class="space-y-4 mb-8 text-gray-600">
-                        <li class="flex items-start"><i data-lucide="users" class="w-5 h-5 mr-3 mt-0.5 text-sage"></i> Cross-discipline networking</li>
-                        <li class="flex items-start"><i data-lucide="brain" class="w-5 h-5 mr-3 mt-0.5 text-sage"></i> Research & Pilot access</li>
-                    </ul>
-                    <a href="https://www.aimentalhealthcollective.com/join-the-ai-mental-health-collective" target="_blank" class="w-full bg-charcoal text-white py-4 px-4 rounded-md font-medium hover:bg-black transition-colors flex items-center justify-center">
-                        Apply for the Collective <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
 
     <section id="faq" class="py-20 bg-white w-full">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="max-w-3xl mx-auto">
                 <h2 class="text-3xl md:text-4xl font-bold font-serif text-charcoal mb-12 text-center">Frequently Asked Questions</h2>
                 <div class="space-y-4" id="faq-container">
-                    
                     <div class="border-b border-gray-100 pb-4">
                         <button class="w-full flex justify-between items-center py-4 text-left focus:outline-none faq-btn group">
                             <span class="text-lg font-medium text-charcoal group-hover:text-sage transition-colors">What is the AI Mental Health Collective?</span>
@@ -260,7 +205,6 @@
                             A community of vetted professionals operating at the intersection of technology and psychology. We focus on the risks, benefits, and ethics of AI. Membership includes access to the online community, collaboration opportunities, research, and monthly discussions.
                         </div>
                     </div>
-
                     <div class="border-b border-gray-100 pb-4">
                         <button class="w-full flex justify-between items-center py-4 text-left focus:outline-none faq-btn group">
                             <span class="text-lg font-medium text-charcoal group-hover:text-sage transition-colors">Who is this for?</span>
@@ -270,7 +214,6 @@
                             We welcome clinicians, academics, builders, legal experts, and industry leaders. We have two distinct tracks: one for general professionals and a dedicated 'Clinician's Circle' specifically for active mental health practitioners.
                         </div>
                     </div>
-
                     <div class="border-b border-gray-100 pb-4">
                         <button class="w-full flex justify-between items-center py-4 text-left focus:outline-none faq-btn group">
                             <span class="text-lg font-medium text-charcoal group-hover:text-sage transition-colors">What is the Clinician's Circle?</span>
@@ -280,7 +223,6 @@
                             A curated sub-community for active clinicians to discuss the impact of AI on therapeutic practice and client work. It includes monthly meetings tailored to clinical needs.
                         </div>
                     </div>
-
                     <div class="border-b border-gray-100 pb-4">
                         <button class="w-full flex justify-between items-center py-4 text-left focus:outline-none faq-btn group">
                             <span class="text-lg font-medium text-charcoal group-hover:text-sage transition-colors">Are Continuing Education (CE) credits available?</span>
@@ -290,7 +232,6 @@
                             Yes. Dr. Rachel Wood is an Approved Continuing Education Provider (#7877). CEs through NBCC are available for clinicians.
                         </div>
                     </div>
-
                     <div class="border-b border-gray-100 pb-4">
                         <button class="w-full flex justify-between items-center py-4 text-left focus:outline-none faq-btn group">
                             <span class="text-lg font-medium text-charcoal group-hover:text-sage transition-colors">What is the cost?</span>
@@ -325,8 +266,8 @@
                             Disclaimer: The Collective is a professional association and discussion group. It is not a substitute for therapy, nor does it constitute a therapeutic relationship.
                         </p>
                         <div class="flex space-x-6">
-                             <a href="https://www.dr-rachelwood.com/aboutme" class="text-sage font-semibold hover:text-charcoal transition-colors">Full Bio</a>
-                             <a href="https://www.dr-rachelwood.com/media" class="text-sage font-semibold hover:text-charcoal transition-colors">Media Features</a>
+                             <a href="https://www.dr-rachelwood.com/aboutme" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors">Full Bio</a>
+                             <a href="https://www.dr-rachelwood.com/media" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors">Media Features</a>
                         </div>
                     </div>
                 </div>
@@ -336,62 +277,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Lucide Icons
             lucide.createIcons();
-
-            // Mobile Menu Logic
-            const navToggle = document.querySelector('.navbar-toggler, .hamburger, .kjb-navbar-toggle, [data-toggle="collapse"]');
-            const navMenu = document.querySelector('.navbar-collapse, .nav-menu, .kjb-navbar-collapse');
-
-            if (navToggle && navMenu) {
-                navToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    navMenu.style.zIndex = "9999";
-                    navMenu.style.position = "relative";
-
-                    const isHidden = navMenu.classList.contains('hidden') || 
-                                     window.getComputedStyle(navMenu).display === 'none' ||
-                                     !navMenu.classList.contains('show');
-
-                    if (isHidden) {
-                        navMenu.classList.remove('hidden');
-                        navMenu.classList.add('show');
-                        navMenu.style.display = 'block'; 
-                        navToggle.classList.remove('collapsed');
-                    } else {
-                        navMenu.classList.add('hidden');
-                        navMenu.classList.remove('show');
-                        navMenu.style.display = 'none';
-                        navToggle.classList.add('collapsed');
-                    }
-                });
-            }
-
-            // FAQ Accordion Logic
             const faqBtns = document.querySelectorAll('.faq-btn');
             faqBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const answer = btn.nextElementSibling;
                     const icon = btn.querySelector('i');
-                    
-                    // Close other open FAQs
-                    document.querySelectorAll('.faq-answer').forEach(el => {
-                        if (el !== answer && !el.classList.contains('hidden')) {
-                            el.classList.add('hidden');
-                            const otherIcon = el.previousElementSibling.querySelector('i');
-                            if(otherIcon) otherIcon.classList.remove('rotate-180');
-                        }
-                    });
-
-                    // Toggle current item
                     answer.classList.toggle('hidden');
-                    if (icon) {
-                        if (answer.classList.contains('hidden')) {
-                            icon.classList.remove('rotate-180');
-                        } else {
-                            icon.classList.add('rotate-180');
-                        }
-                    }
+                    if (icon) icon.classList.toggle('rotate-180');
                 });
             });
         });
