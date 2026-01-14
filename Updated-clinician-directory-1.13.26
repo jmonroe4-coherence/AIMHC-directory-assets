@@ -130,7 +130,7 @@
                         <h2 class="font-serif text-2xl font-bold text-sage mb-1">Fiona Brandon, MPS, MA, MFT</h2>
                         <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">California</div>
                         <div class="flex-grow">
-                            <p class="bio-text line-clamp-5 text-gray-600 leading-relaxed italic text-sm mb-2">Fiona Brandon, MPS, MA, MFT, is a licensed psychotherapist, contemplative educator and author who integrates psychodynamic therapy, Buddhist psychology, neuropsychology, dream imagery, and sensorimotor psychotherapy in her work with adults and couples. Her specialties include codependency, intergenerational trauma, healing childhood wounds, and therapy for perimenopause and menopause. Visit www.fionabrandon.com to learn more about working with Fiona and upcoming workshops.</p>
+                            <p class="bio-text line-clamp-5 text-gray-600 leading-relaxed italic text-sm mb-2">Fiona Brandon, MPS, MA, MFT, is a licensed psychotherapist, contemplative educator and author who integrates psychodynamic therapy, Buddhist psychology, neuropsychology, dream imagery, and sensorimotor psychotherapy in her work with adults and couples. Her specialties include codependency, intergenerational trauma, healing childhood wounds, and therapy for perimenopause and menopause.</p>
                             <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
                         </div>
                         <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
@@ -241,7 +241,7 @@
                 <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col">
                     <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ac8cfc-7754-a3da-62b-587555ec1c2b_dc50e08c-2a73-4c4c-a2e9-623bd7ab656f.jpeg" class="w-full h-72 object-cover border-b-4 border-sand" alt="Chris Jones">
                     <div class="p-8 flex flex-col flex-grow">
-                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Chris Jones, DHSC, LMFT</h2>
+                        <h2 class="font-serif text-2xl font-bold text-sage mb-1">Chris Jones, DHSc, LMFT</h2>
                         <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">Nevada</div>
                         <div class="flex-grow">
                             <p class="bio-text line-clamp-5 text-gray-600 leading-relaxed italic text-sm mb-2">Chris earned a BA in Psychology from UNLV in 2010. In 2017, Mr. Jones received a M.S. in Counseling and MFT, beginning his practice as a psychotherapist. Recently, Chris received a M.Ed. in Neuroscience & Trauma from Tabor College in 2025. Chris is licensed in Nevada as an MFT, with an Approved Primary Supervisor designation provided by the Nevada BOE for MFTs and CPCs. Mr. Jones is soon to be Dr. Jones, as he completes his doctoral training in Health Sciences at the University of the Pacific.</p>
@@ -329,7 +329,7 @@
                             <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
                         </div>
                         <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
-                            <a href="mailto:cherylmicoch@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="mailto:cherylmlcoch@gmail.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
                         </div>
                     </div>
                 </article>
@@ -463,7 +463,7 @@
                             <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
                         </div>
                         <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
-                            <a href="mailto:scott@scottshapriomd.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
+                            <a href="mailto:scott@scottshapiromd.com" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email</a>
                             <a href="http://www.scottshapiromd.com" target="_blank" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center"><i data-lucide="globe" class="w-4 h-4 mr-2"></i> Website</a>
                         </div>
                     </div>
