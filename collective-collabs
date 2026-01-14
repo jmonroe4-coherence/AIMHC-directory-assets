@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collective Collabs | AI Mental Health Collective</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* This ensures the site mobile menu always sits on top of your custom content */
+        .navbar-collapse, .nav-menu, .kjb-navbar-collapse, .navbar {
+            z-index: 9999 !important;
+        }
+        
+        /* This prevents your custom content from inheriting "sticky" behavior from the theme */
+        #custom-hero-section {
+            position: relative !important;
+            top: auto !important;
+            z-index: 10 !important;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                serif: ['Playfair Display', 'serif'],
+              },
+              colors: {
+                  sage: '#6B7A6E',
+                  sand: '#C9AD8D',
+                  bone: '#FDFDFC',
+                  charcoal: '#333333'
+              }
+            }
+          }
+        }
+      </script>
+</head>
+<body class="bg-bone text-charcoal antialiased font-sans flex flex-col min-h-screen">
+
+    <div id="custom-hero-section" class="bg-white border-b border-gray-100 w-full pt-0">
+        <div class="max-w-7xl mx-auto py-16 md:py-24 px-6 lg:px-12 text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="inline-flex items-center px-4 py-1 rounded-full border border-sand/50 bg-bone text-sage text-sm font-medium mb-6">
+                    Innovation & Research
+                </div>
+                <h1 class="font-serif text-4xl md:text-5xl font-bold text-sage mb-6 leading-tight">
+                    Collective Collabs
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 leading-relaxed">
+                    Facilitating practical, tangible collaboration between mental health professionals and the technologists building the future of care.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <main class="flex-grow bg-bone w-full">
+        
+        <section class="max-w-7xl mx-auto py-20 px-6 lg:px-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="font-serif text-3xl text-charcoal mb-6">Bridging the Gap</h2>
+                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                        The AI Mental Health Collective serves as a unique bridge. We connect visionary founders and researchers with a vetted community of clinicians who understand the nuances of the therapeutic relationship.
+                    </p>
+                    <p class="text-gray-600 text-lg leading-relaxed">
+                        Through our "Collabs" initiative, we provide a structured container for testing, feedback, and ethical refinement of AI-driven mental health tools.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sand mb-4"><i data-lucide="users" class="w-8 h-8"></i></div>
+                        <h4 class="font-bold text-sage mb-2">Expert Access</h4>
+                        <p class="text-sm text-gray-500">Direct engagement with licensed clinicians and researchers.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sand mb-4"><i data-lucide="shield-check" class="w-8 h-8"></i></div>
+                        <h4 class="font-bold text-sage mb-2">Ethical Vetting</h4>
+                        <p class="text-sm text-gray-500">Focusing on safety, privacy, and the human element of care.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sand mb-4"><i data-lucide="bar-chart-3" class="w-8 h-8"></i></div>
+                        <h4 class="font-bold text-sage mb-2">Data Insights</h4>
+                        <p class="text-sm text-gray-500">Quantitative and qualitative feedback from practitioners.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <div class="text-sand mb-4"><i data-lucide="lightbulb" class="w-8 h-8"></i></div>
+                        <h4 class="font-bold text-sage mb-2">Strategic Roadmaps</h4>
+                        <p class="text-sm text-gray-500">Frameworks to guide your product's evolution.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+<section class="bg-sage text-white py-24 w-full">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 justify-center">
+            
+            <div class="flex flex-col">
+                <div class="mb-6 opacity-30 text-sand">
+                    <i data-lucide="quote" class="w-8 h-8"></i>
+                </div>
+                <blockquote class="flex-grow mb-8">
+                    <p class="font-sans text-xl italic leading-relaxed !text-white">
+                        "The AI Mental Health Collective has been a foundational part of building my company and product in the earliest stages. The collection of experts and perspectives in this group is going to shape the future at such a crucial inflection point for society."
+                    </p>
+                </blockquote>
+                <div class="pt-6 border-t border-white/10">
+                    <p class="font-bold text-sm tracking-wide">Shane Pope</p>
+                    <p class="text-xs text-sand uppercase tracking-widest mt-1">Founder, Remi | Human-Centric AI</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col">
+                <div class="mb-6 opacity-30 text-sand">
+                    <i data-lucide="quote" class="w-8 h-8"></i>
+                </div>
+                <blockquote class="flex-grow mb-8">
+                    <p class="font-sans text-xl italic leading-relaxed !text-white">
+                        "It's been amazing to be connected to a community of clinicians and builders who believe tech can genuinely improve access to care. Thank you Dr. Rachel Wood for starting this group."
+                    </p>
+                </blockquote>
+                <div class="pt-6 border-t border-white/10">
+                    <p class="font-bold text-sm tracking-wide">Melissa Ablett-Jordaan</p>
+                    <p class="text-xs text-sand uppercase tracking-widest mt-1">Founder, Sibyl | Support For Pregnancy Loss</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+        <section class="bg-white py-20 w-full border-t border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-3xl text-charcoal mb-4">Engagement Pathways</h2>
+                    <p class="text-gray-500 max-w-2xl mx-auto">From initial visibility to deep clinical research, we offer several ways for teams to collaborate with the Collective.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    
+    <div class="p-8 rounded-2xl border border-gray-100 bg-bone flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+        <h3 class="text-sage mb-4 uppercase tracking-widest text-xs font-bold font-serif">01. Showcase</h3>
+        <p class="text-gray-600 mb-6 flex-grow text-sm leading-relaxed">Present your tool live to our collective. Includes a hosted Q&A session and a pilot survey to capture immediate clinical impressions.</p>
+        <ul class="text-sm space-y-3 text-gray-500 mb-2 border-t border-gray-200 pt-6">
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Live Demo Presentation</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Interactive Q&A</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Raw Survey Data</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="p-8 rounded-2xl border border-gray-100 bg-bone flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+        <h3 class="text-sage mb-4 uppercase tracking-widest text-xs font-bold font-serif">02. Insights Report</h3>
+        <p class="text-gray-600 mb-6 flex-grow text-sm leading-relaxed">Receive a comprehensive analysis of the survey data, identifying key themes, clinical concerns, and opportunities for improvement.</p>
+        <ul class="text-sm space-y-3 text-gray-500 mb-2 border-t border-gray-200 pt-6">
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Quantitative Charts</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Qualitative Analysis</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Narrative Summary</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="p-8 rounded-2xl border border-gray-100 bg-bone flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+        <h3 class="text-sage mb-4 uppercase tracking-widest text-xs font-bold font-serif">03. Consultation</h3>
+        <p class="text-gray-600 mb-6 flex-grow text-sm leading-relaxed">A deeper advisory relationship including specialized frameworks of analysis and strategic consulting to nail down your product roadmap.</p>
+        <ul class="text-sm space-y-3 text-gray-500 mb-2 border-t border-gray-200 pt-6">
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Post-Demo Consultation</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Framework Analysis</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Strategic Roadmap</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="p-8 rounded-2xl border border-sage/20 bg-sage/5 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+        <h3 class="text-sage mb-4 uppercase tracking-widest text-xs font-bold font-serif">04. Deep Dive</h3>
+        <p class="text-gray-600 mb-6 flex-grow text-sm leading-relaxed">A high-stakes qualitative study conducted by expert researchers. Ideal for informing investor conversations and ethical scaling.</p>
+        <ul class="text-sm space-y-3 text-gray-500 mb-2 border-t border-sage/20 pt-6">
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Blind Clinical Interviews</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Systematic Qualitative Study</span>
+            </li>
+            <li class="flex items-start">
+                <i data-lucide="check-circle-2" class="w-4 h-4 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                <span>Investor-Ready Report</span>
+            </li>
+        </ul>
+    </div>
+</div>
+        </section>
+
+        <section class="max-w-4xl mx-auto py-20 px-6 lg:px-12">
+            <h2 class="font-serif text-3xl text-charcoal mb-10 text-center">Collaboration Logistics</h2>
+            <div class="space-y-8">
+                <div>
+                    <h4 class="font-bold text-sage mb-2">Who participates in these collaborations?</h4>
+                    <p class="text-gray-600">All Collabs involve vetted members of the AI Mental Health Collective, including licensed mental health professionals, researchers, and ethics experts.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sage mb-2">What is the timeline for reports?</h4>
+                    <p class="text-gray-600">Depending on the scope of the collaboration, insights reports typically take 2-4 weeks, while the Systematic Deep Dive study can span 2-3 months.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sage mb-2">How are participants recruited?</h4>
+                    <p class="text-gray-600">Participants are invited from our internal directories. For Deep Dives, we hand-select clinicians whose expertise aligns specifically with your tool's focus area.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-sage text-white py-24 w-full text-center">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold !text-white mb-6" style="color: #ffffff !important;">Start a Collaboration</h2>
+                <p class="text-white mb-10 max-w-xl mx-auto text-lg leading-relaxed">
+                    Interested in showcasing your tool or conducting a clinical study with our collective? Reach out to discuss how we can support your mission.
+                </p>
+                <a href="https://rachel-wood.mykajabi.com/contactme" class="inline-block bg-white text-sage py-4 px-10 rounded-md font-bold hover:bg-gray-100 transition-all shadow-lg">
+                    Contact Dr. Wood
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navToggle = document.querySelector('.navbar-toggler, .hamburger, .kjb-navbar-toggle, [data-toggle="collapse"]')
+      const navMenu = document.querySelector('.navbar-collapse, .nav-menu, .kjb-navbar-collapse')
+
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function(e) {
+          e.preventDefault()
+          const isHidden = navMenu.classList.contains('hidden') || 
+                           window.getComputedStyle(navMenu).display === 'none' ||
+                           !navMenu.classList.contains('show')
+
+          if (isHidden) {
+            navMenu.classList.remove('hidden')
+            navMenu.classList.add('show')
+            navMenu.style.display = 'block'
+            navToggle.classList.remove('collapsed')
+          } else {
+            navMenu.classList.add('hidden')
+            navMenu.classList.remove('show')
+            navMenu.style.display = 'none'
+            navToggle.classList.add('collapsed')
+          }
+        })
+      }
+
+      const dropdownLinks = document.querySelectorAll('.dropdown-toggle, .kjb-dropdown-toggle, [data-toggle="dropdown"]')
+      dropdownLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault()
+          e.stopPropagation()
+          const menu = this.nextElementSibling
+          if (menu) {
+            const isShowing = menu.classList.contains('show')
+            document.querySelectorAll('.dropdown-menu, .kjb-dropdown-menu').forEach(m => {
+              m.classList.remove('show')
+              m.style.display = 'none'
+            })
+            if (!isShowing) {
+              menu.classList.add('show')
+              menu.style.display = 'block'
+            }
+          }
+        })
+      })
+
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown, .kjb-dropdown')) {
+          document.querySelectorAll('.dropdown-menu, .kjb-dropdown-menu').forEach(menu => {
+            menu.classList.remove('show')
+            menu.style.display = 'none'
+          })
+        }
+      })
+    })
+    </script>
+
+    <script>
+        lucide.createIcons()
+    </script>
+</body>
+</html>
