@@ -3,8 +3,11 @@
     <div class="p-8 flex flex-col flex-grow">
         <h2 class="font-serif text-2xl font-bold text-sage mb-1">NAME_HERE, CREDENTIALS</h2>
         <div class="text-xs font-bold uppercase tracking-widest text-sand mb-4">LOCATION_HERE</div>
-        <p class="text-gray-600 mb-6 flex-grow leading-relaxed">BIO_TEXT_HERE</p>
-        <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+        <div class="flex-grow">
+            <p class="bio-text line-clamp-5 text-gray-600 leading-relaxed italic text-sm mb-2">BIO TEXT HERE.</p>
+            <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+        </div>        
+            <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
             <a href="mailto:EMAIL_HERE" class="text-sage font-semibold hover:text-charcoal transition-colors flex items-center">
                 <i data-lucide="mail" class="w-4 h-4 mr-2"></i> Email
             </a>
