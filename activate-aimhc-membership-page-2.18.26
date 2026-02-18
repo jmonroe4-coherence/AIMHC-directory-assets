@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Your Collective Membership | AIMHC</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                serif: ['Playfair Display', 'serif'],
+              },
+              colors: {
+                  sage: '#6B7A6E',
+                  sand: '#C9AD8D',
+                  bone: '#FDFDFC',
+                  charcoal: '#333333'
+              }
+            }
+          }
+        }
+    </script>
+    <style>
+        /* Force pointer events to ensure Kajabi doesn't overlap the buttons */
+        .kjb-button-fix {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 50 !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-bone text-charcoal font-sans antialiased">
+
+    <header class="bg-white border-b border-gray-100 pt-16 pb-12 md:pt-24 md:pb-16 w-full">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+            <div class="inline-block px-3 py-1 rounded-full bg-sand/10 text-sand text-xs font-bold uppercase tracking-widest mb-6 font-serif">
+                Application Accepted
+            </div>
+            <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-sage mb-6 leading-tight">
+                Enter the Collective
+            </h1>
+            <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                This is a curated community of individuals at the cutting edge of AI + mental health. Complete your activation to join the collaboration.
+            </p>
+        </div>
+    </header>
+
+    <section class="py-12 md:py-20 bg-bone">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 text-center flex flex-col items-center shadow-sm">
+                        <div class="w-12 h-12 bg-sage text-white rounded-full flex items-center justify-center mb-4 font-bold shadow-lg">1</div>
+                        <h4 class="font-serif text-lg font-bold text-sage mb-2">Activate</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Secure your spot in the collective and set up billing.</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 text-center flex flex-col items-center shadow-sm">
+                        <div class="w-12 h-12 bg-white text-sage border-2 border-sage rounded-full flex items-center justify-center mb-4 font-bold">2</div>
+                        <h4 class="font-serif text-lg font-bold text-sage mb-2">Connect</h4>
+                        <p class="text-sm text-gray-500 leading-relaxed">Access the online platform and join the discussion.</p>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl border border-gray-100 text-center flex flex-col items-center shadow-sm">
+                        <div class="w-12 h-12 bg-white text-gray-300 border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 font-bold">3</div>
+                        <h4 class="font-serif text-lg font-bold text-gray-400 mb-2">Influence</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed">Participate in monthly discussions and collaborations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-white border-t border-gray-100">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+                
+                <div class="lg:col-span-3">
+                    <h3 class="font-serif text-2xl text-sage mb-8">What your membership includes:</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                            <span class="text-gray-600 leading-relaxed">Full access to our private online community of clinicians, researchers, builders, and experts.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                            <span class="text-gray-600 leading-relaxed">Live virtual discussions held the first Friday of every month at 11:00am Eastern Time (recorded in case you miss it). These highly attended gatherings are a hallmark of the Collective for learning, contributing, and meeting others. </span>
+                        </li>
+                        <li class="flex items-start">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 mr-3 text-sand flex-shrink-0 mt-0.5"></i>
+                            <span class="text-gray-600 leading-relaxed">Opportunities to showcase your work through collaborative pilot studies and receive in-depth clinical feedback.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="bg-bone p-8 rounded-2xl border border-gray-100 shadow-sm lg:sticky lg:top-8">
+                        <h3 class="font-serif text-xl text-sage mb-8 text-center uppercase tracking-widest text-sm font-semibold">Activation</h3>
+                        
+                        <!-- Monthly Block -->
+                        <div class="mb-10 pb-10 border-b border-gray-200/50 text-center">
+                            <div class="flex items-baseline justify-center gap-1 mb-2">
+                                <span class="text-4xl font-bold text-charcoal">$20</span>
+                                <span class="text-gray-400 text-sm">/month</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-6 italic">Standard monthly access</p>
+                            <a href="https://www.dr-rachelwood.com/offers/iF9i4coL" target="_blank" rel="noopener noreferrer" class="kjb-button-fix w-full border-2 border-sage text-sage py-3 rounded-md font-bold hover:bg-sage hover:text-white transition-all">
+                                Activate Monthly
+                            </a>
+                        </div>
+
+                        <!-- Annual Block -->
+                        <div class="text-center relative pt-4">
+                            <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-sand text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                                Best Value
+                            </span>
+                            <div class="flex items-baseline justify-center gap-1 mb-2">
+                                <span class="text-4xl font-bold text-charcoal">$220</span>
+                                <span class="text-gray-400 text-sm">/year</span>
+                            </div>
+                            <p class="text-xs text-sand font-bold mb-6 italic">1 month free!</p>
+                            <a href="https://www.dr-rachelwood.com/offers/Jz6XoGnx/checkout" target="_blank" rel="noopener noreferrer" class="kjb-button-fix w-full bg-sage text-white py-4 rounded-md font-bold hover:bg-[#5A665C] transition-all shadow-lg">
+                                Activate Annual
+                            </a>
+                        </div>
+
+                        <p class="text-[11px] text-gray-400 mt-8 text-center leading-relaxed">
+                            Manage or cancel your subscription at any time within your member portal.
+                        </p>
+                        
+                        <div class="mt-6 flex items-center justify-center gap-2 text-[10px] text-gray-300">
+                            <i data-lucide="lock" class="w-3 h-3"></i>
+                            <span>Secure Checkout</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
