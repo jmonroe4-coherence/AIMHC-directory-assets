@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Mental Health Collective | Clinician Directory</title>
+
+    <!-- Preconnect to speed up font and CDN fetches -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Display=swap prevents render blocking -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind via CDN — unavoidable in Kajabi custom code, but config is minimal -->
+    <script>
+        // Define config BEFORE Tailwind loads so it's picked up immediately
+        window.tailwind = window.tailwind || {};
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                            serif: ['Playfair Display', 'serif'],
+                        },
+                        colors: {
+                            sage:     '#6B7A6E',
+                            sand:     '#C9AD8D',
+                            bone:     '#FDFDFC',
+                            charcoal: '#333333',
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com" defer></script>
+
+    <style>
+        /* ─── Reset / base ─────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* Kajabi navbar z-index safety */
+        .navbar-collapse, .nav-menu, .kjb-navbar-collapse, .navbar { z-index: 9999 !important; }
+
+        /* Sand color applied directly — bypasses Tailwind CDN timing */
+        .location-label { color: #C9AD8D !important; }
+
+        /* Prevent hero from stacking weirdly against Kajabi theme */
+        #aimhc-directory { position: relative !important; top: auto !important; }
+
+        /* ─── Card image wrapper ────────────────────────────────────── */
+        /*
+         * The sand accent bar lives on the WRAPPER, not the <img>.
+         * This guarantees the bar is always visible regardless of
+         * image aspect ratio, load state, or browser quirks.
+         */
+        .card-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 18rem;          /* 72 = 288px — matches h-72 */
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .card-img-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-color: #C9AD8D;  /* sand */
+            z-index: 2;
+        }
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            /* Smooth fade-in once loaded — avoids layout flash */
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card-img-wrap img.loaded { opacity: 1; }
+
+        /* ─── Bio truncation ────────────────────────────────────────── */
+        .bio-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 5;
+            overflow: hidden;
+            transition: -webkit-line-clamp 0s;   /* clamp can't animate, keep instant */
+        }
+        .bio-expanded {
+            -webkit-line-clamp: unset !important;
+            overflow: visible;
+        }
+
+        /* ─── Card hover lift ───────────────────────────────────────── */
+        .clinician-card {
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+            will-change: transform;
+        }
+        .clinician-card:hover {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.10);
+            transform: translateY(-2px);
+        }
+
+        /* Hide Read More btn inline so there's no 200ms flash */
+        .read-more-btn { display: none; }
+        .read-more-btn.visible { display: inline-block; }
+
+        /* ─── Sidebar layout ────────────────────────────────────────── */
+        #directory-layout {
+            display: flex;
+            align-items: flex-start;
+            gap: 2.5rem;
+        }
+        #filter-sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 2rem;
+        }
+        #directory-grid-wrap { flex: 1; min-width: 0; }
+
+        /* ─── Filter buttons ────────────────────────────────────────── */
+        .filter-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.45rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #555;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            line-height: 1.4;
+        }
+        .filter-btn:hover { background: #f3f4f6; color: #333; }
+        .filter-btn.active {
+            background: #6B7A6E;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* ─── No-results message ────────────────────────────────────── */
+        #no-results {
+            display: none;
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 0;
+            color: #9ca3af;
+            font-size: 1rem;
+        }
+
+        /* ─── Mobile: sidebar becomes scrolling pill row ────────────── */
+        @media (max-width: 767px) {
+            #directory-layout { flex-direction: column; gap: 1.5rem; }
+            #filter-sidebar {
+                width: 100%;
+                position: static;
+                background: #fff;
+                border: 1px solid #f3f4f6;
+                border-radius: 0.75rem;
+                padding: 1rem;
+            }
+            #filter-sidebar h3 { margin-bottom: 0.75rem; }
+            #filter-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+            .filter-btn {
+                display: inline-block;
+                width: auto;
+                border: 1px solid #e5e7eb;
+                padding: 0.3rem 0.75rem;
+                border-radius: 999px;
+            }
+            .filter-btn.active { border-color: #6B7A6E; }
+        }
+    </style>
+</head>
+
+<body class="bg-bone text-charcoal antialiased font-sans" style="background-color:#FDFDFC;color:#333333;">
+
+<div id="aimhc-directory">
+
+    <!-- ── Hero / Header ───────────────────────────────────────────── -->
+    <header class="bg-white border-b border-gray-100 w-full">
+        <div class="max-w-7xl mx-auto py-16 md:py-24 px-6 lg:px-12 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="font-serif text-4xl md:text-5xl font-bold text-sage mb-6">
+                    Clinician Directory
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto text-left">
+                    The Clinicians Directory houses mental health practitioners inside the AI Mental Health Collective who are actively involved in shaping a responsible, safe, and ethical future with AI. Membership is comprised of clinicians, consultants, advisors, and psychoeducators.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- ── Directory Grid ──────────────────────────────────────────── -->
+    <main class="max-w-7xl mx-auto py-16 px-6 lg:px-12">
+        <div id="directory-layout">
+
+            <!-- ── Filter Sidebar ── -->
+            <aside id="filter-sidebar">
+                <h3 style="font-family:'Playfair Display',serif;color:#6B7A6E;font-size:1.1rem;font-weight:700;margin-bottom:1rem;">Filter by Location</h3>
+                <div id="filter-list">
+                    <button class="filter-btn active" data-filter="all" onclick="applyFilter(this)">All Clinicians</button>
+                    <button class="filter-btn" data-filter="california" onclick="applyFilter(this)">California</button>
+                    <button class="filter-btn" data-filter="colorado" onclick="applyFilter(this)">Colorado</button>
+                    <button class="filter-btn" data-filter="connecticut" onclick="applyFilter(this)">Connecticut</button>
+                    <button class="filter-btn" data-filter="florida" onclick="applyFilter(this)">Florida</button>
+                    <button class="filter-btn" data-filter="indiana" onclick="applyFilter(this)">Indiana</button>
+                    <button class="filter-btn" data-filter="israel" onclick="applyFilter(this)">Israel</button>
+                    <button class="filter-btn" data-filter="kenya" onclick="applyFilter(this)">Kenya</button>
+                    <button class="filter-btn" data-filter="maryland" onclick="applyFilter(this)">Maryland</button>
+                    <button class="filter-btn" data-filter="massachusetts" onclick="applyFilter(this)">Massachusetts</button>
+                    <button class="filter-btn" data-filter="nevada" onclick="applyFilter(this)">Nevada</button>
+                    <button class="filter-btn" data-filter="new jersey" onclick="applyFilter(this)">New Jersey</button>
+                    <button class="filter-btn" data-filter="new york" onclick="applyFilter(this)">New York</button>
+                    <button class="filter-btn" data-filter="new zealand" onclick="applyFilter(this)">New Zealand</button>
+                    <button class="filter-btn" data-filter="ohio" onclick="applyFilter(this)">Ohio</button>
+                    <button class="filter-btn" data-filter="oregon" onclick="applyFilter(this)">Oregon</button>
+                    <button class="filter-btn" data-filter="united kingdom" onclick="applyFilter(this)">United Kingdom</button>
+                    <button class="filter-btn" data-filter="virginia" onclick="applyFilter(this)">Virginia</button>
+                    <button class="filter-btn" data-filter="washington" onclick="applyFilter(this)">Washington</button>
+                    <button class="filter-btn" data-filter="washington dc" onclick="applyFilter(this)">Washington DC</button>
+                    <button class="filter-btn" data-filter="wisconsin" onclick="applyFilter(this)">Wisconsin</button>
+                </div>
+            </aside>
+
+            <!-- ── Cards ── -->
+            <div id="directory-grid-wrap">
+                <div id="directory-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <div id="no-results">No clinicians found for that location.</div>
+
+            <!-- ── Grant Brenner ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york|new jersey|florida|colorado|massachusetts|california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/822254-f35a-4ce0-1cab-5d72c474b47d_Grant_Brenner.jpg"
+                         alt="Grant Brenner" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Grant Brenner, MD, DFAPA</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York, New Jersey, Florida, Colorado, Massachusetts (p), California (p)</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Brenner is an interventional psychiatrist, psychoanalyst, organizational consultant, author, speaker, creative, and entrepreneur in private practice in Manhattan's Flatiron district. He provides psychotherapy, medication management, transcranial magnetic stimulation (TMS), and complex case consultation. His interests include emerging approaches in precision medicine and artificial intelligence. Dr. Brenner is also active in non-profit work focused on disaster mental health and mental health advocacy through the arts and media. He welcomes collaboration on initiatives that advance the common good.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:drbrenner@granthbrennermd.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="https://linktr.ee/DrGrantHBrenner" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Charlotte Beard ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6c5583c-d343-57f0-b64e-ff75eeeda6_Charlotte_Beard.jfif"
+                         alt="Charlotte Beard" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Charlotte Beard, PhD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Beard is a clinical psychologist and the founder of OpenWorld Psychology. Dr. Beard has expertise in mental health and technology, including problematic technology use, gaming-related concerns, and human–computer interaction. She also has clinical and research interests at the intersection of mental health and artificial intelligence, with a focus on ethical implementation, safety, and the responsible integration of AI tools in psychological assessment and care.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:drbeard@openworldtreatment.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.openworldtreatment.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Gage Blanck-Singer ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new jersey">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/d3b26b2-b235-be86-33ee-a05a0a3bf5_Gage_BlanckSinger_Headshot.jpg"
+                         alt="Gage Blanck-Singer" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Gage Blanck-Singer, LPC, LCADC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New Jersey</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a New Jersey Licensed Professional Counselor and Licensed Clinical Alcohol and Drug Counselor. My practice specializes in codependency, addiction, and helping spouses and partners navigate a loved one's substance use. I also treat behavioral addictions, including gaming and emerging technology-related compulsions such as AI use.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:Gage@NJCounseling.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Fiona Brandon ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/12daf80-f537-ab70-46e6-cded24356fcf_7e6067e5-ae8b-40e5-b542-9b4463cb5877.JPG"
+                         alt="Fiona Brandon" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Fiona Brandon, MPS, MA, MFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Fiona Brandon, MPS, MA, MFT, is a licensed psychotherapist, contemplative educator and author who integrates psychodynamic therapy, Buddhist psychology, neuropsychology, dream imagery, and sensorimotor psychotherapy in her work with adults and couples. Her specialties include codependency, intergenerational trauma, healing childhood wounds, and therapy for perimenopause and menopause.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:fiona@fionabrandon.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.fionabrandon.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Jennifer Donato ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california|new jersey">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/Jen%20Bio%20Pic.jpg"
+                         alt="Jennifer Donato" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jennifer Donato, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California, New Jersey</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Jen is a Licensed Clinical Social Worker licensed in both New Jersey and California, with experience in both hospital-based treatment and private practice. She is passionate about connecting with individuals and families across the lifespan and has extensive experience supporting children, teens, couples, parents, and families. Jen takes a collaborative approach to helping clients address emotional, behavioral, and psychiatric challenges. Her goal with every client is to help them manage life's struggles and stressors while realizing the endless potential they possess. Jen takes an eclectic approach to psychotherapy and is trained in modalities such as EMDR, IPNB, IFS, DBT, and CBT, allowing her to tailor treatment to each individual's unique needs. Most recently, she has been immersing herself in exploring the innovations, benefits, and drawbacks of the use of AI and digital technology in the field of mental health. Jen's professional background spans the fields of mental health, finance, sales, music, and entrepreneurship. This diverse experience allows her to bring creativity, innovation, and practical insight to her work, helping to shape the future of care for individuals living with mental health conditions and their families. As a musician and creative, she is especially interested in incorporating innovative techniques into therapy, including those related to the arts. Finally, Jen is a proud mother of three amazing grown children, who have helped inform her perspective in working with children, parents, and families.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:jendonatocounseling@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── David Drapkin ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="israel">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/David%20Drapkin%20Headshot.jpg"
+                         alt="David Drapkin" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">David Drapkin, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Israel</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">David Drapkin, LCSW, is a social worker, clinical psychotherapist, and educator specializing in integrative wellness, psychedelic therapy, and clinical AI. David previously worked at Mount Sinai Hospital, Hackensack Meridian Health, Englewood Health, Forge Health, and Psychedelics Today. David has hosted over 100 podcasts, webinars and conference panels - mostly on psychedelic-related topics. He is currently hosting The Healing Mindset podcast, the U-PEP (University Psychedelic Education Program) podcast and the MarpaMinds YouTube channel. David is also the Clinical AI Architect for the EverKind emotional wellness platform. David has a private psychotherapy practice where he sees clients remotely and in-person.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:dldrapkin@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Ann Dypiangco ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ae478d2-eada-44ea-0436-0448abcea0d_b3c91fe9-5726-4e67-a045-d5944cd4286f.JPG"
+                         alt="Ann Dypiangco" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Ann Dypiangco, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California (telehealth)</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Ann Dypiangco, LCSW, is a California-based trauma therapist specializing in EMDR and relational healing. She is also interested in the emerging ways technology and AI influence attachment, identity, and emotional regulation.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:ann@lacanadatherapist.co" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Juliette Doyle ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york|connecticut|florida">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/a6a4f42-2dd5-af0-2143-72bbc6b73f1f_404cb943-21fd-4a95-be4a-dd08c7a8385d.jfif"
+                         alt="Juliette Doyle" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Juliette Doyle, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York, Connecticut, Florida</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Licensed Marriage & Family Therapist with 20 years experience in clinical care serving individuals, couples and families; specializing in marriage and relational issues and trauma. I own and operate a thriving private practice and serve people in NY, CT, and FL state.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:Doyletherapy1@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.juliettedoyle.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Laura Federico ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/17d6bae-d66a-0178-cedf-ca5b3b72fac_cc145625-a8e0-42d3-8455-37e41eaf3e7d.jpg"
+                         alt="Laura Federico" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Laura Federico, LCSW, CST</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Laura Federico is a psychotherapist and AASECT-certified sex and relationship therapist in private practice. Her private practice specializes in sex therapy, couples and poly, OCD and relationships, and AI attachment. Laura focuses on the impact of medical trauma and the experience of being dismissed or gaslit, with a personal goal to fill in the gaps in our sex ed so we all have the information we need to make informed choices about our bodies and mental health.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:laurafedericotherapy@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Caitlin Gasperetti ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ca7c8c3-3856-f67a-33cf-5e7f4ddd7e_a5c0a281-7476-4464-99cf-cf5cec8bb4bb.png"
+                         alt="Caitlin Gasperetti" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Caitlin Gasperetti, PhD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a licensed clinical psychologist in private practice in New York City with specialized, intensive training in Dialectical Behavior Therapy (DBT). I work with adolescents and young adults navigating identity development, attachment insecurity, and patterns of emotion dysregulation, including borderline personality traits. A growing focus of my practice involves supporting clients who form attachment bonds with AI or digital tools as a way to cope with loneliness, overwhelm, or fears of abandonment. My approach is collaborative and skills-based, helping clients understand and validate the function of these attachments while building the capacity for secure, grounded relationships offline.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:ceg@morninglightpsych.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Stephanie Haft ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6ed2428-5725-0186-3e2-0d23f5eca04_5e29ac22-a36d-4a96-84e5-3341ad4ff533.jpg"
+                         alt="Stephanie Haft" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Stephanie Haft, PhD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California (telehealth)</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a licensed clinical psychologist in California with training in evidence-based therapies such as Dialectical Behavior Therapy, Cognitive Behavior Therapy, and Acceptance and Commitment Therapy. I specialize in treating adolescents, young adults, and adults with PTSD, anxiety, and depression. Separately, I work in the AI tech space and continue to consult with AI-based mental health companies.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:Stephanie.L.Haft@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Patricia Huber Villano ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/1cf4cd5-1d2b-f885-32b3-14cebc67a116_c6b0b630-95bc-4a5e-bfbe-1d3a7e6f9eb3.jfif"
+                         alt="Patricia Huber Villano" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Patricia Huber Villano, DSW, LCSW, CPRP, CSWM</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Patricia Huber-Villano is a licensed clinical social worker with over 25 years of experience in mental health, addiction recovery, and psychiatric rehabilitation. She has dedicated her career to helping individuals overcome life's challenges, build resilience, and rediscover purpose through compassionate, evidence-based care. Known for her warm and collaborative approach, Dr. Huber-Villano empowers clients to understand their emotions, strengthen coping skills, and create lasting change toward emotional well-being.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:patriciahuberlcswr@hotmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Chris Jones ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="nevada">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/ac8cfc-7754-a3da-62b-587555ec1c2b_dc50e08c-2a73-4c4c-a2e9-623bd7ab656f.jpeg"
+                         alt="Chris Jones" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Chris Jones, DHSc, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Nevada</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Chris earned a BA in Psychology from UNLV in 2010. In 2017, Mr. Jones received a M.S. in Counseling and MFT, beginning his practice as a psychotherapist. Recently, Chris received a M.Ed. in Neuroscience & Trauma from Tabor College in 2025. Chris is licensed in Nevada as an MFT, with an Approved Primary Supervisor designation provided by the Nevada BOE for MFTs and CPCs. Mr. Jones is soon to be Dr. Jones, as he completes his doctoral training in Health Sciences at the University of the Pacific.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:info@sailpsych.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Cassie Kingan ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="ohio">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e51da87-c5ee-0be0-d35-1b557aab8d6_68ca60e3-6460-4891-b30a-964cad60d6d7.jpg"
+                         alt="Cassie Kingan" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Cassie Kingan, LPCC-S</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Ohio</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a LPCC-S (Licensed Professional Clinical Counselor and Supervisor) in Ohio. I see adults 18 and older using trauma informed Somatic Therapy. Somatic Therapy recognizes that trauma, stress, and emotions are stored not just in thoughts, but also in the body. By addressing the mind/body connection in therapy we can feel more "whole", connected, and empowered.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:cassie@creativetherapycollective.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Sylvia Klein ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="florida">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/SylviaKlein_ProfilePIc.jpg"
+                         alt="Sylvia Klein" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Sylvia Klein, EdD, LMHC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Florida</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Sylvia Klein, EdD, LMHC, is a bilingual clinical psychotherapist with a doctorate in Child and Youth Development. She has worked in clinical and higher education settings and in digital mental health, providing psychotherapy to adults and couples with a particular interest in perinatal and maternal mental health. Building on this foundation, her current work focuses on technology, digital health, and responsible AI in digital health care settings, particularly in ways that protect clinical integrity, equity, and patient safety.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:sylviaklein.edd@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Max Major ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="united kingdom">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/Dr%20Max%20Major%20Headshot.jpg"
+                         alt="Max Major" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Max Major, HCPC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">United Kingdom</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Max Major is the Principal Clinical Psychologist specialising in AI at Unmind, where he leads clinical governance, safety architecture, and efficacy strategy for Nova – Unmind's AI wellbeing coach. His work focuses on designing systems that connect people to the right level of care, safely and at scale, without compromising clinical rigour or the irreplaceable value of human connection. With over a decade of clinical experience across New Zealand and the NHS, Max now works at the intersection of evidence-based psychology, ethical AI, and real-world product development. He is a frequent contributor to industry discourse on responsible AI in mental health, advocating for transparent governance, robust safety protocols, and AI that amplifies both human wellbeing and the human support that underpins it. Max is available for consultation, collaboration, and speaking on clinical AI governance, safety-by-design, and the ethics of AI in mental health.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:max.major@unmind.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Emily Mbelenga ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="kenya">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/16a31d7-1362-a73b-e413-e4e1eb45bc33_bbe27327-838e-4b8f-bf8c-7fde60b01ac7.jpg"
+                         alt="Emily Mbelenga" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Emily Mbelenga</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Kenya</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Emily Mbelenga is a Clinical Psychologist and Public Health Nutritionist based in Nairobi, Kenya. She is the Founder of Iyashi Wellness Centre, a social enterprise focused on providing evidence-based, integrated mental health and nutrition solutions for individuals, communities, and workplaces. Her clinical practice specializes in trauma recovery, and she has a strong interest in digital well-being and the ethical application of AI in mental healthcare, particularly within LMIC contexts.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:emily@iyashiwellness.org" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Sarayu Meraki ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="wisconsin">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/54ac5fb-e376-00b-241-84bff0ad7f4_d5f0789e-4583-4e21-ad71-9e8988c6b43b.jpg"
+                         alt="Sarayu Meraki" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Sarayu Meraki, LPC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Wisconsin</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Sarayu Meraki, LPC, is a relational therapist specializing in complex trauma, with a particular focus on how childhood relational wounds shape adult relationships, identity, and our capacity to move toward what we truly want for ourselves. Drawing from the NeuroAffective Relational Model (NARM), she helps high-functioning adults transform patterns of self-abandonment, shame, and unmet emotional needs—including those that may surface in over-reliance on artificial connection or AI-based relational surrogates.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:sarayu.meraki@merakicounseling.org" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://merakicounseling.org" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Tzurty Mermelstein ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/fad505-5f0f-2077-c52f-012b45b5635_04811456-8fb9-42d1-9913-937ab037356c.jpg"
+                         alt="Tzurty Mermelstein" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Tzurty Mermelstein, LMSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a trauma-informed psychotherapist helping intellectually driven individuals navigate depression, identity, and meaning through relational, somatic, and psychedelic-assisted approaches.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:tz.mermelstein@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Cheryl Mlcoch ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="colorado">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/a4d14e3-57c1-8ab5-aea7-b64c42ebf680_fcd9731b-e0fb-4e79-9a86-75e0e5887e31.jpeg"
+                         alt="Cheryl Mlcoch" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Cheryl Mlcoch, LPC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Colorado</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Cheryl Mlcoch is a Licensed Professional Counselor in Colorado and previously in Utah with over 20 years experience. She also holds an undergraduate degree in Exercise Science and has always used a holistic approach when working with clients. Her focus has mainly been with youth and adults who have experienced trauma, suicide attempts, chronic pain or major life transitions. Cheryl uses a variety of techniques including somatic exercises, movement, nutrition and nurturing human connection. Cheryl hopes to be a part of supporting the ethics surrounding AI and mental wellness to learn new tools along with preserving what matters most ~ human connection.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:cherylmlcoch@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Jessa Monroe ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="massachusetts">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/image-0.png"
+                         alt="Jessa Monroe" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jessa Monroe</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Massachusetts</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am currently working towards a Master's of Science in Clinical Mental Health Counseling with a special interest in neurobiology and memory reconsolidation. My goal is to work with individuals and groups through a non-pathologizing lens, focusing on experiential and somatic modalities. I'm especially interested in the coherence of symptoms and how we can achieve true transformation through experiential therapy.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:monroej@merrimack.edu" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.jessamonroe.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Frances Mulcahy ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/cf47581-1385-a428-d01a-cd0418d843_9738d863-36fb-4e0a-a2d4-52baf5ba36e8.JPG"
+                         alt="Frances Mulcahy" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Frances Mulcahy, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Frances Mulcahy is a bilingual Licensed Marriage & Family Therapist serving clients throughout the Bay Area and California. She received her Master's in Counseling Psychology in 2022 from the University of San Francisco. Frances provides trauma-focused therapy for individuals navigating complex histories and systemic demands. Her practice is an affirming space, particularly for Filipino/a/x, AANHPI, and BIPOC clients exploring intergenerational trauma and cultural identity, as well as survivors of intimate partner violence. She also specializes in helping those facing burnout and compassion fatigue using an integrated approach of EMDR, DBT, somatic, and attachment-focused therapies. Frances is particularly interested in exploring cultural bias, as well as ethical and legal issues of using AI in clinical work.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:hello@francesmulcahytherapy.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.francesmulcahytherapy.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Jackie Ourman ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york|florida">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/254a54e-fd0-0266-ed24-bfafa818b60e_Jackie_O.jpeg"
+                         alt="Jackie Ourman" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jackie Ourman, LMHC-D</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York, Florida</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Jackie Ourman, LMHC-D is a licensed mental health counselor and the founder of Values Aligned Therapy. She works with couples and individuals navigating anxiety, relationship challenges, and life transitions. Her work centers on relationships and attachment, drawing from Emotionally Focused Therapy (EFT), Acceptance and Commitment Therapy (ACT), and Eye Movement Desensitization and Reprocessing (EMDR) to help clients strengthen connection, communicate more openly, and build relationships grounded in trust and emotional safety. Jackie also presents and facilitates conversations for professional communities on topics including AI and mental health, the ethical and relational impacts of technology, and the therapist's evolving role in a rapidly changing world.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:jackieourmanlmhc@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.valuesalignedtherapy.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Dinah Purton ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="united kingdom">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/0be8c1a-ea4a-420b-a4e-deac37b7bc2_5a1ab526-2b12-4f8e-b948-5d3882fd6ae7.jpg"
+                         alt="Dinah Purton" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Dinah Purton (she/her) MBACP (Accred) AMBICA</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">United Kingdom</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Integrative psychotherapist, counsellor and therapeutic coach specialising in gender, sexuality and relationship diversity, neurodivergence (especially adult ADHD), fertility and life stages/transitions. I have 20 years experience working for charities, the NHS and in private practice. Following my MA in Philosophy & AI I am currently exploring the intersection between AI and therapy, focusing on ethics, risks and how to gain the greatest benefit for clients while minimising harm.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:dinahpurton@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.dinahpurton.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Joanna Rosenblatt ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york|connecticut">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/joanna%20rosenblatt.jpeg"
+                         alt="Joanna Rosenblatt" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Joanna Rosenblatt, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York, Connecticut</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Joanna Rosenblatt, LCSW, is a psychotherapist and EMDR-certified trauma specialist in private practice. Her work centers on OCD, trauma, and anxiety, with a focus on how overwhelming experiences and chronic self-doubt shape the nervous system and the stories we hold about ourselves. Joanna is passionate about helping clients break out of the loops that keep them stuck, with the goal of restoring a felt sense of safety and empowerment.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:jrosenblattlcsw@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.joannarosenblatt.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Jake Ross ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="ohio|indiana|florida|virginia">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/6212ce3-babc-ea64-6bbf-01a752ab4512_Jake_Ross.jpeg"
+                         alt="Jake Ross" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jake Ross, MSW, LISW-S, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Ohio, Indiana, Florida, Virginia</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Jake is a highly skilled therapist, consultant and trainer in Ohio with over 15 years of experience known for his dedication to improving organizations and services that cater to children, adolescents, and individuals with mental health needs. Jake earned his Bachelor's in Social Work from Marshall University and his MSW from Concord University, focusing on Rural Appalachia. His career includes extensive experience in child welfare, trauma-informed care, and clinical operations. He has designed innovative residential treatment facilities and developed programs that enhance client care and support. Jake leverages his extensive experience to empower millennial men to lead more fulfilling lives.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:JR@therosswellnessgroup.org" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Morgan Schultz ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/2d28ddf-1e26-2fe8-3cc-855b81655f_20b22151-b42a-4977-8ff4-c81c181aabdb.JPG"
+                         alt="Morgan Schultz" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Morgan Schultz, LCSW</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I support teens and young adults who feel overwhelmed or consumed by AI-related relationships, identity confusion, or fears about what technology means for their future. They have a space where they feel genuinely understood, able to ground themselves and reconnect with the parts of life that still bring joy, purpose, and real-world relationships. I also help parents make sense of what's happening to rebuild safety at home, offering clarity, communication tools, and steadier footing for the whole family. Together we move at a pace that feels safe, with the goal of restoring connection, confidence, and a renewed sense of being human again.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:morgan@growthtalktherapy.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://growthtalktherapy.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Scott Shapiro ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new york|new jersey">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/7bb1646-1410-5673-2a3b-733fe3cd0d_88a1ae92-200f-411b-8654-96d7a37b5d60.jpg"
+                         alt="Scott Shapiro" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Scott Shapiro, MD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New York, New Jersey</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">As a Harvard-trained psychiatrist, Scott Shapiro, MD is a nationally recognized expert in adult ADHD. He provides both medication management and cognitive behavioral therapy (CBT) in one place. His approach is collaborative, structured, and results oriented. Dr. Shapiro offers both in-person and telehealth.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:scott@scottshapiromd.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.scottshapiromd.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Jocelyn Skillman ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="washington">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/jocelyn%20skillman%20headshot.png"
+                         alt="Jocelyn Skillman" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Jocelyn Skillman, LMHC</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Washington</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I'm a psychotherapist with over a decade of experience. My work draws on interpersonal neurobiology, attachment theory, and relational frameworks to support healing of the self-relationship. I track the influence of systemic and personal trauma on body, mind, and spirit—especially within the context of technology and media. Alongside clinical practice, I develop trauma-informed digital tools and AI systems that enhance relational, embodied care (not replace it).</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:jocelynskillmanlmhc@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.jocelynskillman.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Ashvin Sood ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="washington dc|new york|virginia|maryland|wisconsin">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/1001f6-ab6-0ce4-0751-8b42f37fffb_a5793ff6-c32e-43f6-9af4-c3de59245d11.png"
+                         alt="Ashvin Sood" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Ashvin Sood, MD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Washington DC, New York, Virginia, Maryland, Wisconsin</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Sood is a board certified Adult psychiatrist and Child/Adolescent psychiatrist. He currently serves as the director of communications for Washington Interventional Psychiatry located in North West DC. He also serves as educational director of PsychChild, a non profit entity that aims to educate clinicians and parents about the pros and cons of social media, video games, AI, and everything in between. Dr. Sood is a distinguished member of the American Academy of Child and Adolescent Psychiatry's Media Committee, serves as an external safety consultant for social media companies, works with media contributors such as NPR, IHeartRadio, and Newsweek, and has multiple publications regarding the intersectionality of youth mental health and digital media. Interested in collaborating or having your clients seen?</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:Drsoodpsych@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Leanne Spagnola ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e0a0707-b285-fb22-b574-b510efdd8261_df2ebe8c-59a5-4a7b-bb8a-54309a793fb0.jpg"
+                         alt="Leanne Spagnola" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Leanne Spagnola, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">I am a licensed Marriage and Family Therapist in California. I received my Bachelors Degree in Psychology and my Master's Degree in Counseling Psychology from the University of San Francisco. I trained at UCSF's Department of Psychiatry and have experience working with children, adults, and families in the hospital, clinical, home, and school setting. I work from a trauma-informed psychodynamic perspective, with clients experiencing PTSD, anxiety, depression, separation, divorce, and co-parenting. I see adults and couples full time with Lifestance Health.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:leannespagnola@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Erica Spartos ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/008ae00-de12-d3f1-0eb1-8217c8acf_Erica_Spartos.jpg"
+                         alt="Erica Spartos" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Erica Spartos, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Erica is in private practice in San Francisco focused on adolescents, rising adults, individuals, LGBTQAI+, anxiety, depression, ADHD, C/PTSD. She is EMDR trained. Erica provides Telehealth primarily but also nature based walk & talks in SF or in person concierge services.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="https://www.lifecirclecenter.com/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Candice Thompson ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california|oregon">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/CandiceThompson-cropped.jpg"
+                         alt="Candice Thompson" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Candice Thompson, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California, Oregon</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Candice Thompson is a licensed psychotherapist, TEDx speaker, and adjunct lecturer. Due to her location in Silicon Valley, she has become a voice for ethical technology in mental health care. Candice provides clinical consultation to organizations and founders. She pairs 20 years of experience in mental health with first hand knowledge of the tech industry. Candice has a private practice in Menlo Park working with high achieving adults around anxiety, depression, and trauma recovery. She considers herself an AI-informed clinician. License numbers: CA LMFT53361; OR T1111</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:Candelariamft@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="https://www.CandiceThompson.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── June Thompson ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/jmonroe4-coherence/AIMHC-directory-assets@main/june%20thompson%20headshot%20v2.png"
+                         alt="June Thompson" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">June Thompson, LMFT</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">June Thompson is a licensed psychotherapist in California with over 20 years of clinical practice, an AAMFT-approved clinical supervisor, and a researcher in human behavior. She holds master's degrees in both Marriage and Family Therapy and in Human and Environmental Geography. June specializes in the relationship between technological use, including social media, smart devices, and AI applications, and its adverse effects on human functioning.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:thompson.june.f@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Brigitte Viljoen ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="new zealand">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/e242677-eac2-d66d-7fe2-f123a701ddae_6cb2ecdd-a913-4e33-a195-2c417738272c.jpg"
+                         alt="Brigitte Viljoen" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Brigitte Viljoen, PhD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">New Zealand</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Brigitte Viljoen works in private practice, specialising in psychodynamic psychotherapies with a special interest in the impact of human development and people's social media use (and other online issues) and how this might impact on their attachments and ways of relating, as well as, people's use of AI chatbots, social robots and/or digital avatars and the ethics around this topic. Dr Viljoen is also a researcher looking at human-technology relational dynamics and mental health issues and a lecturer at Auckland University of Technology.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:drbrigitteviljoen@gmail.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.drbrigitteviljoen.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Gwendolyn Watson ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="california">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2163292432/settings_images/edb8d1f-5d0-2abc-6e1-04752bbeb31b_262b78b4-36c6-43f9-b516-3b629feb7fda.JPG"
+                         alt="Gwendolyn Watson" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Gwendolyn Watson, M.A., LMFT #147312</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">California</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Gwendolyn Watson, M.A., LMFT #147312, is a trauma-informed therapist certified in EMDR, helping clients build resilience for present-day challenges and the echoes of their past. She supports individuals and couples navigating anxiety, trauma, and relationship dynamics with evidenced-based methods (EMDR, ACT, DBT) and a compassionate style.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:therapy@gwendolynwatson.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="https://www.gwendolynwatson.com/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- ── Rachel Wood ── -->
+                    <article class="clinician-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 flex flex-col" data-locations="colorado">
+                <div class="card-img-wrap">
+                    <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/themes/2162436102/settings_images/87db66-7c8-0ecf-53bc-0b64d82d35fa_a83fd38a-b321-470b-8821-d2c6c5efbd46.jpg"
+                         alt="Rachel Wood" loading="lazy" width="400" height="288">
+                </div>
+                <div class="p-8 flex flex-col flex-grow">
+                    <h2 class="font-serif text-2xl font-bold text-sage mb-1">Rachel Wood, PhD</h2>
+                    <div class="location-label text-xs font-bold uppercase tracking-widest mb-4">Colorado</div>
+                    <div class="flex-grow">
+                        <p class="bio-text text-gray-600 leading-relaxed italic text-sm mb-2">Dr. Wood is the founder of the AI Mental Health Collective. She is passionate about creating space for cross-discipline dialogue and collaboration regarding safe and ethical AI. Dr. Wood is a speaker, advisor, and consultant for companies developing and designing ethical AI. She is also an LPC in private practice.</p>
+                        <button onclick="toggleBio(this)" class="read-more-btn text-sage text-xs font-bold uppercase tracking-wider hover:text-sand transition-colors mb-6">Read More</button>
+                    </div>
+                    <div class="pt-6 border-t border-gray-100 mt-auto flex flex-col gap-2">
+                        <a href="mailto:rachel@dr-rachelwood.com" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            Email
+                        </a>
+                        <a href="http://www.dr-rachelwood.com" target="_blank" rel="noopener noreferrer" class="contact-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+                </div><!-- /directory-grid -->
+            </div><!-- /directory-grid-wrap -->
+        </div><!-- /directory-layout -->
+
+        <!-- ── CTA Footer ─────────────────────────────────────────── -->
+        <div class="max-w-3xl mx-auto mt-16 bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-100 shadow-sm">
+            <h3 class="font-serif text-2xl text-sage mb-4">Got Questions?</h3>
+            <p class="text-gray-600 mb-8 max-w-lg mx-auto">Contact us for more info.</p>
+            <a href="https://www.aimentalhealthcollective.com/contact"
+               class="inline-flex items-center justify-center px-10 py-4 text-base font-medium rounded-md text-white transition-colors shadow-md"
+               style="background-color:#6B7A6E;"
+               onmouseover="this.style.backgroundColor='#5A665C'"
+               onmouseout="this.style.backgroundColor='#6B7A6E'">
+                Contact Us
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+        </div>
+
+    </main>
+</div><!-- /aimhc-directory -->
+
+<!-- ─── Inline SVG contact-link style (can't use Tailwind @apply in CDN mode) ── -->
+<style>
+    .contact-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #6B7A6E;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: color 0.15s ease;
+        text-decoration: none;
+    }
+    .contact-link:hover { color: #333333; }
+</style>
+
+<script>
+(function () {
+    'use strict';
+
+    /* ── Bio toggle ──────────────────────────────────────────────── */
+    function toggleBio(btn) {
+        var p   = btn.previousElementSibling;   /* the <p class="bio-text"> */
+        var exp = p.classList.contains('bio-expanded');
+        if (exp) {
+            p.classList.remove('bio-expanded');
+            btn.textContent = 'Read More';
+        } else {
+            p.classList.add('bio-expanded');
+            btn.textContent = 'Show Less';
+        }
+    }
+    window.toggleBio = toggleBio;   /* expose for onclick= attributes */
+
+    /* ── Location filter ────────────────────────────────────────────
+     * Each card has data-locations="state a|state b|..." (pipe-separated,
+     * lowercase). Clicking a sidebar button shows only matching cards.
+     */
+    function applyFilter(btn) {
+        var filter = btn.getAttribute('data-filter');
+
+        /* Update active button state */
+        document.querySelectorAll('.filter-btn').forEach(function (b) {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+
+        /* Show/hide cards */
+        var cards   = document.querySelectorAll('.clinician-card');
+        var visible = 0;
+
+        cards.forEach(function (card) {
+            if (filter === 'all') {
+                card.style.display = '';
+                visible++;
+            } else {
+                var locs = (card.getAttribute('data-locations') || '').split('|');
+                var match = locs.some(function (l) { return l.trim() === filter; });
+                card.style.display = match ? '' : 'none';
+                if (match) visible++;
+            }
+        });
+
+        /* Show/hide no-results message */
+        var noResults = document.getElementById('no-results');
+        if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+
+        /* Re-run Read More check since hidden cards may now be visible */
+        syncReadMoreButtons();
+    }
+    window.applyFilter = applyFilter;
+
+    /* ── Show Read More buttons where text is actually clipped ──────
+     * Once a button is marked visible it stays visible — we never
+     * hide it again. This prevents the flash caused by ResizeObserver
+     * firing mid-layout when scrollHeight is temporarily unreliable
+     * (e.g. during image loads or font swaps).
+     */
+    function syncReadMoreButtons() {
+        document.querySelectorAll('.bio-text').forEach(function (p) {
+            var btn = p.nextElementSibling;
+            if (!btn || !btn.classList.contains('read-more-btn')) return;
+            if (btn.classList.contains('visible')) return;
+            if (p.scrollHeight > p.clientHeight + 4) {
+                btn.classList.add('visible');
+            }
+        });
+    }
+
+    /* ── Lazy-load image fade-in ──────────────────────────────────
+     * Adds .loaded class once the browser has decoded the image,
+     * triggering the CSS opacity transition for a smooth appearance.
+     */
+    function initImageFade() {
+        document.querySelectorAll('.card-img-wrap img').forEach(function (img) {
+            if (img.complete && img.naturalWidth > 0) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load',  function () { img.classList.add('loaded'); });
+                img.addEventListener('error', function () { img.classList.add('loaded'); }); /* still show slot */
+            }
+        });
+    }
+
+    /* ── Boot ─────────────────────────────────────────────────────── */
+    document.addEventListener('DOMContentLoaded', function () {
+        initImageFade();
+        syncReadMoreButtons();
+
+        /* ResizeObserver fires on initial layout AND any resize —
+           covers web font swap, Kajabi sidebar open/close, etc.
+           Wrapping in rAF prevents the "loop completed with undelivered
+           notifications" console warning caused by callbacks that take
+           longer than one animation frame to execute. */
+        if (window.ResizeObserver) {
+            var rafId;
+            var ro = new ResizeObserver(function () {
+                cancelAnimationFrame(rafId);
+                rafId = requestAnimationFrame(syncReadMoreButtons);
+            });
+            ro.observe(document.getElementById('directory-grid'));
+        } else {
+            /* Fallback for older browsers */
+            window.addEventListener('resize', syncReadMoreButtons);
+        }
+    });
+})();
+</script>
+
+</body>
+</html>
